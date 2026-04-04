@@ -1,0 +1,138 @@
+m255
+K4
+z2
+Z0 !s99 nomlopt
+R0
+R0
+R0
+R0
+R0
+R0
+R0
+R0
+R0
+R0
+R0
+R0
+R0
+R0
+R0
+R0
+R0
+R0
+R0
+R0
+R0
+R0
+R0
+R0
+R0
+R0
+R0
+R0
+!s11f MIXED_VERSIONS
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+Z1 dC:/My Laptop/Digital Design Course/SPI
+T_opt
+!s110 1775339160
+V;?C1iREO7nKR7eR9aXG0j0
+04 6 4 work spi_tb fast 0
+=1-2811a89fd314-69d18698-240-7958
+!s124 OEM100
+o-quiet -auto_acc_if_foreign -work work +acc
+Z2 tCvgOpt 0
+n@_opt
+OL;O;2021.1;73
+vmem
+Z3 !s110 1775339155
+!i10b 1
+!s100 @^;VA:iF0]oSRVVDUjWRD2
+IA;3Vii7VD76cF^D_iaUh:1
+R1
+w1775329700
+8mem.v
+Fmem.v
+!i122 30
+L0 1 55
+Z4 VDg1SIo80bB@j0V0VzS_@n1
+Z5 OL;L;2021.1;73
+r1
+!s85 0
+31
+Z6 !s108 1775339155.000000
+Z7 !s107 SPI_tb.v|wrapper.v|mem.v|spi_slave_interface.v|
+Z8 !s90 -reportprogress|300|spi_slave_interface.v|mem.v|wrapper.v|SPI_tb.v|
+!i113 0
+Z9 o-L mtiAvm -L mtiRnm -L mtiOvm -L mtiUvm -L mtiUPF -L infact
+R2
+vspi_slave_interface
+R3
+!i10b 1
+!s100 XZW0RLfYGO]ABiflV2hEo1
+I;6PU=mFdFP4RgOP:7Xa651
+R1
+w1775336527
+8spi_slave_interface.v
+Fspi_slave_interface.v
+!i122 30
+L0 1 135
+R4
+R5
+r1
+!s85 0
+31
+R6
+R7
+R8
+!i113 0
+R9
+R2
+vspi_tb
+R3
+!i10b 1
+!s100 hKO]OZ5?>Qzzj2XW0X=`h2
+I>494zzhDPj5hTC7;dV?@H0
+R1
+w1775339149
+8SPI_tb.v
+FSPI_tb.v
+!i122 30
+L0 1 142
+R4
+R5
+r1
+!s85 0
+31
+R6
+R7
+R8
+!i113 0
+R9
+R2
+vwrapper
+R3
+!i10b 1
+!s100 _F09cz2KXAAWQl?0=?znd3
+IP;8_3jaWKBQi=cKkR?2dG0
+R1
+w1775219249
+8wrapper.v
+Fwrapper.v
+!i122 30
+L0 1 17
+R4
+R5
+r1
+!s85 0
+31
+R6
+R7
+R8
+!i113 0
+R9
+R2

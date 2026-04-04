@@ -24,21 +24,26 @@ module mem #(parameter ADDR_SIZE = 8, parameter MEM_DEPTH = 256) (
         end else begin
             if (rx_valid) begin
                 case (din[ADDR_SIZE+1:ADDR_SIZE]) 
-                    2'b00:
+                    2'b00: begin
                         write_addr <= din[ADDR_SIZE-1:0];
                         tx_valid <= 0;
-                    2'b01:
+                    end
+                    2'b01: begin
                         mem_array[write_addr] <= din[ADDR_SIZE-1:0];
                         tx_valid <= 0;
-                    2'b10:
+                    end
+                    2'b10: begin
                         read_addr <= din[ADDR_SIZE-1:0];
                         tx_valid <= 0;
-                    2'b11:
+                    end
+                    2'b11: begin
                         dout <= mem_array[read_addr];
                         tx_valid <= 1;
-                    default: 
+                    end
+                    default: begin
                         dout <= 0;
                         tx_valid <= 0;
+                    end
                 endcase
             end else begin
                 dout <= 0;

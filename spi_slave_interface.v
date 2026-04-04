@@ -20,7 +20,7 @@ module spi_slave_interface (
 
     reg flag;  // distinguishes READ_ADD / READ_DATA
     reg [3:0] rx_counter; // counts bits for serial to parallel conversion and vice versa
-    reg [2:0] tx_counter
+    reg [2:0] tx_counter; // counts bits for serial to parallel conversion and vice versa
     reg [7:0] tx_shift; // temporary register for MISO
 
     // Next State Logic
@@ -82,22 +82,23 @@ module spi_slave_interface (
             tx_shift <= 0;
         end else begin
             rx_valid <= 0;
-            MISO <= 0;
+            MISO <= 0; 
 
             if (SS_n) begin
                 rx_counter <= 0;
                 tx_counter <= 0;
             end else begin
                 case (cs) 
-                    WRITE, READ_ADD:
+                    WRITE, READ_ADD: begin
                         rx_data <= {rx_data[8:0], MOSI};
-                        if (rx_counter == 9) begin
+                        if (rx_counter == 8) begin
                                 rx_valid <= 1;
+                        end else if (rx_counter == 9) begin
                                 rx_counter <= 0;
                         end else
                                 rx_counter <= rx_counter + 1;
-                    
-                    READ_DATA:
+                    end
+                    READ_DATA: begin
                         if (tx_valid) begin
                             if (tx_counter == 0) begin
                                 tx_shift <= tx_data;
@@ -117,10 +118,11 @@ module spi_slave_interface (
                             MISO <= 0;
                             tx_counter <= 0;
                         end
-                    default: 
+                    end
+                    default: begin
                         rx_counter <= 0;
                         tx_counter <= 0;
-
+                    end
 
                 endcase
             end

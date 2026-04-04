@@ -22,7 +22,6 @@ end
   @(negedge clk);
   rst_n = 1;
   @(negedge clk);
-  MOSI = $random;
   @(negedge clk);
   MOSI = $random;
   @(negedge clk);
@@ -38,11 +37,20 @@ end
   @(negedge clk);
   MOSI = $random;
   @(negedge clk);
+  MOSI = $random;
+  @(negedge clk);
+  MOSI = $random;
+  @(negedge clk);
+ 
+
   SS_n = 1;
   @(negedge clk);
+  
  //RAM Write Command - Write Data
   MOSI = 0;
   SS_n = 0;
+  @(negedge clk);
+  @(negedge clk);
   @(negedge clk);
   MOSI = 1;
   @(negedge clk);
@@ -62,8 +70,10 @@ end
   @(negedge clk);
   MOSI = $random;
   @(negedge clk);
+
   SS_n = 1;
   @(negedge clk);
+  
 //RAM Write Command - Read Address
   MOSI = 1;
   SS_n = 0;
@@ -86,12 +96,19 @@ end
   @(negedge clk);
   MOSI = $random;
   @(negedge clk);
+  @(negedge clk);
+
+
   SS_n = 1;
   @(negedge clk);
   //RAM Write Command - Read Data
   MOSI = 1;
   SS_n = 0;
   @(negedge clk);
+  @(negedge clk);
+  @(negedge clk);
+  @(negedge clk);
+  @(negedge clk);
   MOSI = 1;
   @(negedge clk);
   MOSI = $random;
@@ -110,7 +127,11 @@ end
   @(negedge clk);
   MOSI = $random;
   @(negedge clk);
+  
+
+
   SS_n = 1;
+  @(negedge clk);
   @(negedge clk);
   $stop;
 end
