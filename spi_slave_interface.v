@@ -49,18 +49,11 @@ module spi_slave_interface (
                     ns = IDLE;
                 else
                     ns = cs;
+            default:
+                ns = IDLE;
         endcase   
 
     end
-
-    // always @(posedge clk or negedge rst_n) begin
-    //     if (~rst_n)
-    //         flag <= 0;
-    //     else if (cs == CHK_CMD && ~SS_n && MOSI)
-    //         flag <= ~flag; 
-    //     else
-    //         flag <= 0;
-    // end
 
     // State Memory
     always @(posedge clk or negedge rst_n) begin
@@ -111,7 +104,6 @@ module spi_slave_interface (
                                 tx_counter <= 0;
                             end else begin
                                 tx_counter <= tx_counter + 1;
-                         
                             end
                             
                             flag <= 0;
@@ -130,7 +122,4 @@ module spi_slave_interface (
         end
     end
                 
-
-
-
 endmodule
