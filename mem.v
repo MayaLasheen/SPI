@@ -36,15 +36,14 @@ module mem #(parameter ADDR_SIZE = 8, parameter MEM_DEPTH = 256) (
                         read_addr <= din[ADDR_SIZE-1:0];
                         tx_valid <= 0;
                     end
-                    2'b11: begin
-                        dout <= mem_array[read_addr];
-                        tx_valid <= 1;
-                    end
                     default: begin
                         dout <= 0;
                         tx_valid <= 0;
                     end
                 endcase
+            end else if (din[ADDR_SIZE+1:ADDR_SIZE] == 2'b11) begin
+                dout <= mem_array[read_addr];
+                tx_valid <= 1;
             end else begin
                 dout <= 0;
                 tx_valid <= 0;

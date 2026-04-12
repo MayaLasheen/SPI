@@ -4,9 +4,9 @@ module spi_slave_interface (
     input [7:0] tx_data, 
     input tx_valid,
 
-    output reg MISO,
+    output MISO,
     output reg [9:0] rx_data, 
-    output reg rx_valid
+    output rx_valid
 );
 
     // States
@@ -44,7 +44,7 @@ module spi_slave_interface (
                 end else 
                     ns = IDLE;
 
-            READ_ADD, READ_DATA, WRITE:
+            READ_ADD, READ_DATA, WRITE, CHK_CMD:
                 if (SS_n)
                     ns = IDLE;
                 else
@@ -53,14 +53,14 @@ module spi_slave_interface (
 
     end
 
-    always @(posedge clk or negedge rst_n) begin
-        if (~rst_n)
-            flag <= 0;
-        else if (cs == CHK_CMD && ~SS_n && MOSI)
-            flag <= ~flag; 
-        else
-            flag <= 0;
-    end
+    // always @(posedge clk or negedge rst_n) begin
+    //     if (~rst_n)
+    //         flag <= 0;
+    //     else if (cs == CHK_CMD && ~SS_n && MOSI)
+    //         flag <= ~flag; 
+    //     else
+    //         flag <= 0;
+    // end
 
     // State Memory
     always @(posedge clk or negedge rst_n) begin
@@ -71,57 +71,58 @@ module spi_slave_interface (
     end
 
 
-    // Output Logic
+    assign rx_valid = (rx_counter == 10) && (cs == WRITE || cs == READ_ADD);
+    assign MISO = tx_shift[7];
+
     always @(posedge clk or negedge rst_n) begin
         if (~rst_n) begin
             rx_data <= 0;
-            rx_valid <= 0;
             rx_counter <= 0;
             tx_counter <= 0;
-            MISO <= 0;
             tx_shift <= 0;
+            flag <= 0;
         end else begin
-            rx_valid <= 0;
-            MISO <= 0; 
 
             if (SS_n) begin
                 rx_counter <= 0;
                 tx_counter <= 0;
             end else begin
                 case (cs) 
-                    WRITE, READ_ADD: begin
-                        rx_data <= {rx_data[8:0], MOSI};
-                        if (rx_counter == 8) begin
-                                rx_valid <= 1;
-                        end else if (rx_counter == 9) begin
-                                rx_counter <= 0;
-                        end else
+                    CHK_CMD, WRITE, READ_ADD, READ_DATA: begin
+                        
+                        if (rx_counter == 10) begin
+                            rx_data <= 0;
+                            rx_counter <= 0;
+                        end else begin
+                                rx_data <= {rx_data[8:0], MOSI};
                                 rx_counter <= rx_counter + 1;
-                    end
-                    READ_DATA: begin
-                        if (tx_valid) begin
-                            if (tx_counter == 0) begin
-                                tx_shift <= tx_data;
-                                MISO <= tx_data[7];
+                        end
+                        if (cs == READ_ADD)
+                            flag <= 1;
+
+                        if (cs == READ_DATA) begin
+                            if (tx_valid) begin
+                                tx_shift <= tx_data;  // Load parallel data
                             end else begin
-                                tx_shift <= {tx_shift[6:0], 1'b0};
-                                MISO <= tx_shift[7];
+                                tx_shift <= {tx_shift[6:0], 1'b0};  // Shift left/right
                             end
 
                             if (tx_counter == 7) begin
                                 tx_counter <= 0;
                             end else begin
                                 tx_counter <= tx_counter + 1;
+                         
                             end
-
-                        end else begin 
-                            MISO <= 0;
-                            tx_counter <= 0;
+                            
+                            flag <= 0;
                         end
+                         
                     end
+                    
                     default: begin
                         rx_counter <= 0;
                         tx_counter <= 0;
+                        rx_data <= 0;
                     end
 
                 endcase
